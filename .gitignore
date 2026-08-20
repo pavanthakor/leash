@@ -1,0 +1,8 @@
+vmlinux.h
+*.o
+*.skel.h
+bpf/leash
+__pycache__/
+.venv/
+*.pyc
+.env
