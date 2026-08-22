@@ -66,6 +66,17 @@ agent's hands."
   fire after the kernel has resolved them. That's the whole technical
   argument — don't undercut it.
 
+- **Two exfil shapes, both in scope (deliberate attack-library coverage).**
+  A hijacked agent can leak in two structurally different ways, and Leash must
+  handle both -- they are complementary coverage, not a mechanism swap:
+  - In-process egress: the agent's own process makes the network call
+    (Phase 1: http_get = httpx inside the Python process). No child spawns;
+    attribution rests on the agent process itself. Driven by report.txt.
+  - Forked-child egress: the agent shells out and a child process makes the
+    call (Phase 2: run_shell -> sh -> curl). Attribution must follow the fork:
+    the child inherits the session cgroup by kernel guarantee, so the kernel
+    sees it as in-session with no cooperation. Driven by report_fork.txt.
+
 ## Roadmap (each phase has ONE exit criterion; do not advance without it)
 
 - P0 Environment — BPF LSM prog attaches; negative control passes. [DONE]
