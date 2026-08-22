@@ -7,3 +7,4 @@ __pycache__/
 *.pyc
 .env
 bpf/leash_session
+bpf/leash_enforce
