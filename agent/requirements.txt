@@ -1,0 +1,5 @@
+# Phase 1 vulnerable-agent harness. Exact pins (resolved on Python 3.14.4).
+# Direct dependencies:
+fastapi==0.141.1
+uvicorn==0.52.4
+httpx==0.28.1

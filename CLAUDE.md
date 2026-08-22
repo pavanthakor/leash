@@ -69,7 +69,7 @@ agent's hands."
 ## Roadmap (each phase has ONE exit criterion; do not advance without it)
 
 - P0 Environment — BPF LSM prog attaches; negative control passes. [DONE]
-- P1 Vulnerable agent — attack succeeds: decoy key POSTed to local listener.
+- P1 Vulnerable agent — attack succeeds: decoy key exfiltrated to local listener.
 - P2 Session attribution — full process tree printed from kernel events alone.
 - P3 File enforcement — first real -EPERM; fail-open + teardown proven.
 - P4 Egress enforcement — connect to attacker host fails; allowed host succeeds.
