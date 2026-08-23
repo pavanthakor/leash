@@ -8,3 +8,4 @@ __pycache__/
 .env
 bpf/leash_session
 bpf/leash_enforce
+bpf/leash_connect

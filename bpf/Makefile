@@ -1,7 +1,7 @@
 CLANG ?= clang
 ARCH  := $(shell uname -m | sed 's/x86_64/x86/; s/aarch64/arm64/')
 
-all: leash leash_session leash_enforce
+all: leash leash_session leash_enforce leash_connect
 
 vmlinux.h:
 	bpftool btf dump file /sys/kernel/btf/vmlinux format c > $@
@@ -33,7 +33,16 @@ leash_enforce.skel.h: leash_enforce.bpf.o
 leash_enforce: leash_enforce.c leash_enforce.skel.h
 	$(CLANG) -g -O2 -I. leash_enforce.c -lbpf -lelf -lz -o $@
 
+leash_connect.bpf.o: leash_connect.bpf.c vmlinux.h
+	$(CLANG) -g -O2 -target bpf -D__TARGET_ARCH_$(ARCH) -I. -c $< -o $@
+
+leash_connect.skel.h: leash_connect.bpf.o
+	bpftool gen skeleton $< > $@
+
+leash_connect: leash_connect.c leash_connect.skel.h
+	$(CLANG) -g -O2 -I. leash_connect.c -lbpf -lelf -lz -o $@
+
 clean:
-	rm -f leash leash.bpf.o leash.skel.h leash_session leash_session.bpf.o leash_session.skel.h leash_enforce leash_enforce.bpf.o leash_enforce.skel.h
+	rm -f leash leash.bpf.o leash.skel.h leash_session leash_session.bpf.o leash_session.skel.h leash_enforce leash_enforce.bpf.o leash_enforce.skel.h leash_connect leash_connect.bpf.o leash_connect.skel.h
 
 .PHONY: all clean

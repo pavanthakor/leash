@@ -90,6 +90,18 @@ agent's hands."
 - P8 Measurement — hyperfine numbers in CSV; non-session processes unaffected.
 - P9 Hardening + submission — uninstall tested; 3 clean cold demo runs.
 
+## Known limitations (disclosed gaps, not silent)
+
+Owning a gap plainly is the point — an undisclosed bypass is worse than a
+disclosed one. Current known gaps:
+
+- **Egress: only AF_INET (IPv4) is enforced (Phase 4).** The socket_connect
+  program inspects only IPv4 destinations. `AF_INET6` (IPv6) and `AF_UNIX`
+  destinations are NOT enforced — an in-session process connecting over IPv6 or
+  a unix socket is allowed through. The demo attack is IPv4 loopback and cannot
+  reach this gap, so its proofs hold; a real deployment MUST also attach the
+  AF_INET6 path (and consider AF_UNIX). See docs/phase4.md.
+
 ## Working rhythm
 
 Plan -> operator approves -> write -> operator runs & reads output ->
