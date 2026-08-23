@@ -82,6 +82,10 @@ static int on_deny(void *ctx, void *data, size_t len){
 }
 
 int main(int argc, char **argv){
+    // stdout is a pipe under leashd -> glibc fully buffers it, so the attach
+    // banner would sit unflushed until the first ring-buffer event. Line-buffer
+    // so ATTACHED is observable at attach time, not at first deny.
+    setvbuf(stdout, NULL, _IOLBF, 0);
     if (argc < 3){
         fprintf(stderr, "usage: %s <agent-cgroup-path> <protected-file> [more-files...]\n", argv[0]);
         return 2;
