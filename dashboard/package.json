@@ -1,0 +1,24 @@
+{
+  "name": "leash-console",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Read-only security console for leashd's event stream (Phase 6b)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "npm run build:ssr && node --test tests/chains.test.mjs tests/posture.test.mjs tests/render.test.mjs",
+    "test:bridge": "python3 bridge/test_bridge.py",
+    "test:all": "npm run test && npm run test:bridge",
+    "build:ssr": "vite build --ssr tests/ssr/entry.jsx --outDir tests/ssr/dist"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^5.4.11"
+  }
+}
