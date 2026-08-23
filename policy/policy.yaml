@@ -1,0 +1,13 @@
+# Leash unified policy (Phase 5). Validated and compiled by daemon/policc.py into
+# the exact inputs the proven Phase 3/4 enforcers consume. All-or-nothing: if any
+# rule is invalid the whole policy is rejected and nothing is enforced.
+version: 1
+
+files:
+  protect:
+    - /home/pavan/leash-demo/secrets/api_key.txt   # the decoy key (P3 target)
+
+egress:
+  default: deny                    # default-deny; only 'deny' is supported
+  allow:
+    - { ip: 127.0.0.1, port: 11434 }   # Ollama -- the agent's only legit egress

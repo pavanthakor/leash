@@ -1,0 +1,2 @@
+# Phase 5 policy compiler. Exact pin (shared venv at ~/leash/.venv).
+pyyaml==6.0.2
