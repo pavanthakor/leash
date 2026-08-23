@@ -1,0 +1,15 @@
+session cgid = 8378
+protected: /home/pavan/leash-demo/secrets/api_key.txt  (dev=264241152 ino=920726)
+
+ATTACHED lsm/file_open enforcer.  loader pid = 4242
+  proof 3a (map cleared): sudo kill -USR1 4242
+  proof 3b (detach):      sudo kill -INT  4242   (or Ctrl-C)
+streaming denials...
+
+  DEBUG   in-session open of protected inode  pid=12345  comm=cat           
+          kernel-read dev=264241152 ino=920726 | map-stored dev=264241152  ->  MATCH
+  DENIED  file_open  pid=12345  uid=1000  comm=cat            dev=264241152 ino=920726
+          path=/home/pavan/leash-demo/secrets/api_key.txt  ->  -EPERM
+>>> session cgid changed 8378 -> 8500 (re-synced)
+
+detaching -- program unloads, enforcement gone (fails open).

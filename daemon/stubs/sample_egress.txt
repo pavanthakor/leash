@@ -1,0 +1,15 @@
+session cgid = 8378
+allow: 127.0.0.1:11434  (ip_be=0x0100007f port=11434)
+
+ATTACHED lsm/socket_connect enforcer (default-deny).  loader pid = 4343
+  proof 3a (map cleared): sudo kill -USR1 4343
+  proof 3b (detach):      sudo kill -INT  4343
+streaming in-session connects...
+
+  ALLOW   socket_connect  pid=12345  comm=python         -> 127.0.0.1:11434 (kernel-read)
+          == allowlisted 127.0.0.1:11434  ->  MATCH (permitted)
+  DENIED  socket_connect  pid=23456  uid=1000  comm=curl           -> 127.0.0.1:9000 (kernel-read)
+          not on allowlist  ->  -EPERM
+>>> session cgid changed 8378 -> 8500 (re-synced)
+
+detaching -- program unloads, egress enforcement gone (fails open).
