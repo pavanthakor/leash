@@ -78,3 +78,11 @@ wrong — so the attack cannot start until attach is confirmed.
 (`sh → collect_helper.sh → curl/sleep`) is all in that same cgroup and the key
 transits; (C) a long-lived outsider is in a different cgroup. This explains the
 mechanism without re-running the BPF stack.
+
+## How to verify
+
+- `scripts/cgroup_precheck.sh` → `~/leash-demo/cgroup_proof.log` — the
+  unprivileged ground truth (agent and the forked `sh → collect_helper.sh →
+  curl` chain share the session cgroup; a long-lived outsider does not), no BPF
+  required.
+- `scripts/run_attack_p2.sh` — the full session attack, gated on attach-before-spawn.

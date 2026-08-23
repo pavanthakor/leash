@@ -138,6 +138,15 @@ the stream structurally cannot show. It describes what the green egress dot does
 *not* cover, so a console reader is not misled into thinking IPv4 enforcement is
 total enforcement.
 
+## How to verify
+
+Against a live session (`scripts/up.sh`), `python3 attacks/harness.py` drives
+all 7 shapes and prints the results table plus `~/leash-demo/phase7_results.json`;
+it exits 0 iff the six are contained and #7 is the disclosed gap. Every outcome
+is read from the real event stream and the attacker sinks, never asserted (seq
+numbers vary per run). `attacks/sink6.py` provides the IPv6 / AF_UNIX gap sink
+#7 needs.
+
 ## Files
 
 - `attacks/library.py` — the 7-shape registry + per-attack helper scripts

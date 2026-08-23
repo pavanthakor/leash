@@ -93,3 +93,14 @@ scripts/enforce_probe.sh --failopen              # previously-denied read now SU
 already run an out-of-session read/connect that must SUCCEED — confirm it does before
 AND after the restart (it is never in the agent's cgroup, so the session gate never
 sees it).
+
+## How to verify
+
+- Start the supervisor (`sudo .venv/bin/python daemon/leashd.py`); the stream at
+  `~/leash-demo/leashd.events.jsonl` records `session_start`, both `attached`,
+  denies, `resync`, fail-open windows and `session_end`.
+- `scripts/leashd_check.sh resync` — gate the restart-survival resync (old→new
+  cgid); the proofs 3a/3b/3c and 4 above are the fail-open and
+  out-of-session-unaffected checks.
+- Frozen captures: `fixtures/session-full.jsonl` (restart + resync 9066→9205),
+  `fixtures/session-reattach.jsonl` (unexpected-death + reattach, cgid 7963).
