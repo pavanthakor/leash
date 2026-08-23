@@ -192,3 +192,15 @@ body {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
 }
+
+/* Scope disclosure in the sidebar. Muted amber: a caveat, not an active alarm
+   (the fail-open banner owns "enforcement is off right now"). This describes
+   coverage, which the event stream structurally cannot -- the only sidebar text
+   not stream-derived. */
+.sidebar .scope {
+  margin-top: 6px;
+  color: var(--text-warning);
+  font-size: 10.5px;
+  opacity: 0.85;
+}
+.sidebar .scope .sub { color: var(--text-muted); }

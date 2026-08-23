@@ -77,6 +77,15 @@ test('fail-open banner: loud mid-window, silent after clean shutdown', () => {
   assert.ok(!/fail-open/i.test(renderConsole(REATTACH)));
 });
 
+test('sidebar states the AF_INET scope disclosure (not stream-derived)', () => {
+  const html = renderConsole(FULL);
+  assert.ok(html.includes('scope AF_INET'));
+  assert.ok(html.includes('IPv6/UNIX unenforced'));
+  // it is a coverage caveat, not an active alarm -- the fail-open banner text
+  // must not appear just because this label is present
+  assert.ok(!/enforcement is NOT in effect/.test(html));
+});
+
 test('debug rows are present but hidden by default', () => {
   const html = renderConsole(FULL);
   assert.ok(html.includes('debug hidden (16)'));
