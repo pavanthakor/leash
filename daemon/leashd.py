@@ -118,11 +118,13 @@ RE = {
   "attached":    re.compile(r"^ATTACHED (.+?)  loader pid = (\d+)$"),
   "sigusr1":     re.compile(r"^>>> SIGUSR1: sessions cleared"),
   "detach":      re.compile(r"^detaching -- "),
-  # two-line headers:
-  "f_debug1":    re.compile(r"^  DEBUG   in-session open of protected inode  pid=(\d+)\s+comm=(\S+)\s*$"),
-  "f_deny1":     re.compile(r"^  DENIED  file_open  pid=(\d+)\s+uid=(\d+)\s+comm=(\S+)\s+dev=(\d+) ino=(\d+)\s*$"),
-  "e_allow1":    re.compile(r"^  ALLOW   socket_connect  pid=(\d+)\s+comm=(\S+)\s+-> (\S+):(\d+) \(kernel-read\)$"),
-  "e_deny1":     re.compile(r"^  DENIED  socket_connect  pid=(\d+)\s+uid=(\d+)\s+comm=(\S+)\s+-> (\S+):(\d+) \(kernel-read\)$"),
+  # two-line headers. NOTE: comm is the kernel comm in a fixed-width padded field
+  # and may contain SPACES (e.g. "AnyIO worker th"), so it is matched non-greedily
+  # up to each line's own delimiter (" dev=", " -> ", end-of-line) -- never \S+.
+  "f_debug1":    re.compile(r"^  DEBUG   in-session open of protected inode  pid=(\d+)\s+comm=(.+?)\s*$"),
+  "f_deny1":     re.compile(r"^  DENIED  file_open  pid=(\d+)\s+uid=(\d+)\s+comm=(.+?)\s+dev=(\d+) ino=(\d+)\s*$"),
+  "e_allow1":    re.compile(r"^  ALLOW   socket_connect  pid=(\d+)\s+comm=(.+?)\s+-> (\S+):(\d+) \(kernel-read\)$"),
+  "e_deny1":     re.compile(r"^  DENIED  socket_connect  pid=(\d+)\s+uid=(\d+)\s+comm=(.+?)\s+-> (\S+):(\d+) \(kernel-read\)$"),
   # continuations:
   "f_debug2":    re.compile(r"^          kernel-read dev=(\d+) ino=(\d+) \| map-stored dev=(\d+)  ->  (MATCH|MISMATCH.*)$"),
   "f_deny2":     re.compile(r"^          path=(.+?)  ->  -EPERM$"),
