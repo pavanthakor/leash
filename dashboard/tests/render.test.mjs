@@ -92,6 +92,18 @@ test('debug rows are present but hidden by default', () => {
   assert.ok(!html.includes('>DEBUG<'));
 });
 
+test('allow chatter is folded by default, denials always shown', () => {
+  const html = renderConsole(FULL);
+  // session-full has 73 allow events -> the toggle reports them, but no ALLOW
+  // row renders in the default demo view
+  assert.ok(html.includes('allow hidden (73)'));
+  assert.ok(!html.includes('>ALLOW<'));
+  // the -EPERM denials are NEVER folded -- the story stays visible
+  assert.ok(html.includes('>EPERM<'));
+  // lifecycle likewise stays: the resync verdict is present
+  assert.ok(html.includes('>RESYNC<'));
+});
+
 test('empty states name the actual problem and invent no events', () => {
   assert.ok(renderEmpty(false, null).includes('bridge not reachable'));
   assert.ok(renderEmpty(true, false).includes('no event stream on disk'));
